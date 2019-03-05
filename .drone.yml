@@ -1,0 +1,20 @@
+---
+kind: pipeline
+name: default
+
+steps:
+  - name: build
+    image: squidfunk/mkdocs-material
+    commands:
+      - mkdocs build 
+  - name: publish docs
+    image: gvacaliuc/drone-gh-pages
+    settings:
+      pages_directory: site
+      upstream_name: https://github.com/rice-notes/comp421.git
+      source_branch: master
+      target_branch: gh-pages
+      force_push: true
+      username: gvacaliuc
+      password:
+        from_secret: gh_password
